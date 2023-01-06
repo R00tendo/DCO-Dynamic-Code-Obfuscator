@@ -16,24 +16,20 @@ python3 DCO.py -h
 ## Usage
 ```
   -h, --help            show this help message and exit
-  -o OBFUSCATE, --obfuscate OBFUSCATE
-                        File to obfuscate.
-  -p PRE_SCRIPT, --pre-script PRE_SCRIPT
-                        Python script to run before executing the main virus
-                        (to for example disable windows av).
+  -i INPUT_FILE, --input-file INPUT_FILE
+                        File you want to obfuscate.
   -f FORMAT, --format FORMAT
-                        What format is the target file (binary,python,bash)
-  --os OS               Target operating system.
-  --out OUT             Output obfuscated code to.
-
+                        What format the file is you want to obfuscate. (python, binary, bash)
+  -o OUTPUT_FILE, --output-file OUTPUT_FILE
+                        File where you want the obfuscated while to be written.
+  --os OS               Operating system the obfuscated code will be ran in. (windows,linux)
 ```
-<a href="https://asciinema.org/a/512853" target="_blank"><img src="https://asciinema.org/a/512853.svg" width=500 heigth=500/></a>
 
 ## Example usage:
 ```
-python3 DCO.py -o reverse_shell.sh -f bash --out reverse_obf.py
-python3 DCO.py -o Document.exe -f binary -p disable_av.py --os windows --out Document.py
-python3 DCO.py -o im_bad_at_naming.py -p wipe_logs.py --out install_ram.py
+python3 DCO.py -i reverse_shell.sh -f bash --out reverse_obf.py --os linux
+python3 DCO.py -i Document.exe -f binary --os windows --out Document.py
+python3 DCO.py -i im_bad_at_naming.py --os windows -f python --out install_ram.py
 ```
 
 ## Supported formats:
