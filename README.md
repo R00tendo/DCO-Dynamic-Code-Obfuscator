@@ -2,7 +2,7 @@
 ![rem_back-removebg-preview](https://user-images.githubusercontent.com/72181445/183062380-e6321c88-42e4-4f7a-877e-d39d7d019edb.png)
 
 ## Description
-### DCO Takes in code (python,binary,bash), base64 encodes the payload, reverses encoded text and randomly generates an unique python template to launch the original payload in memory (binary is written to disk).
+### DCO Takes in code (python,binary,bash), base64 encodes the payload, reverses the encoded text and generates a unique and obfuscated python program that when executed launches the payload.
 
 ## Installation
 ```
