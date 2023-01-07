@@ -34,6 +34,7 @@ import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 RANDOM_VAR0_NAME_HERE = base64.b64decode("ENCODED_PAYLOAD_HERE"[::-1]) RANDOM_NEWLINES
 exec(RANDOM_VAR0_NAME_HERE) RANDOM_NEWLINES
             """, """
@@ -41,6 +42,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 exec(base64.b64decode("ENCODED_PAYLOAD_HERE"[::-1])) RANDOM_NEWLINES
             """] 
     class binary:
@@ -50,6 +52,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 open("RANDOM_VAR0_NAME_HERE.exe", "wb").write(base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1])) RANDOM_NEWLINES
 print(os.popen("RANDOM_VAR0_NAME_HERE.exe").read()) RANDOM_NEWLINES
             """,
@@ -58,6 +61,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 RANDOM_VAR2_NAME_HERE = base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]) RANDOM_NEWLINES
 open("RANDOM_VAR0_NAME_HERE.exe", "wb").write(RANDOM_VAR2_NAME_HERE) RANDOM_NEWLINES
 os.popen("RANDOM_VAR0_NAME_HERE.exe") RANDOM_NEWLINES
@@ -67,6 +71,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 RANDOM_VAR2_NAME_HERE = base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]) RANDOM_NEWLINES
 open("RANDOM_VAR0_NAME_HERE.exe", "wb").write(RANDOM_VAR2_NAME_HERE) RANDOM_NEWLINES
 os.system("RANDOM_VAR0_NAME_HERE.exe") RANDOM_NEWLINES
@@ -76,6 +81,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 open("RANDOM_VAR0_NAME_HERE.exe", "wb").write(base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1])) RANDOM_NEWLINES
 os.system("RANDOM_VAR0_NAME_HERE.exe") RANDOM_NEWLINES
             """]
@@ -85,6 +91,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 open("RANDOM_VAR0_NAME_HERE", "wb").write(base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1])) RANDOM_NEWLINES
 print(os.popen("chmod +x RANDOM_VAR0_NAME_HERE && ./RANDOM_VAR0_NAME_HERE").read()) RANDOM_NEWLINES
             """,
@@ -93,6 +100,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 RANDOM_VAR2_NAME_HERE = base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]) RANDOM_NEWLINES
 open("RANDOM_VAR0_NAME_HERE", "wb").write(RANDOM_VAR2_NAME_HERE) RANDOM_NEWLINES
 os.popen("chmod +x RANDOM_VAR0_NAME_HERE && ./RANDOM_VAR0_NAME_HERE") RANDOM_NEWLINES
@@ -102,6 +110,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 RANDOM_VAR2_NAME_HERE = base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]) RANDOM_NEWLINES
 open("RANDOM_VAR0_NAME_HERE", "wb").write(RANDOM_VAR2_NAME_HERE) RANDOM_NEWLINES
 os.system("chmod +x RANDOM_VAR0_NAME_HERE && ./RANDOM_VAR0_NAME_HERE") RANDOM_NEWLINES
@@ -111,6 +120,7 @@ import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 open("RANDOM_VAR0_NAME_HERE", "wb").write(base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1])) RANDOM_NEWLINES
 os.system("chmod +x RANDOM_VAR0_NAME_HERE && ./RANDOM_VAR0_NAME_HERE") RANDOM_NEWLINES
             """]
@@ -119,6 +129,7 @@ os.system("chmod +x RANDOM_VAR0_NAME_HERE && ./RANDOM_VAR0_NAME_HERE") RANDOM_NE
 import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 RANDOM_VAR0_NAME_HERE = base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]).decode() RANDOM_NEWLINES
 RANDOM_VAR1_NAME_HERE = os.popen(RANDOM_VAR0_NAME_HERE).read() RANDOM_NEWLINES
 print(RANDOM_VAR1_NAME_HERE) RANDOM_NEWLINES
@@ -127,6 +138,7 @@ print(RANDOM_VAR1_NAME_HERE) RANDOM_NEWLINES
 import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 RANDOM_VAR0_NAME_HERE = base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]).decode() RANDOM_NEWLINES
 os.system(RANDOM_VAR0_NAME_HERE) RANDOM_NEWLINES
         """,
@@ -134,12 +146,14 @@ os.system(RANDOM_VAR0_NAME_HERE) RANDOM_NEWLINES
 import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 os.system(base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]).decode()) RANDOM_NEWLINES
         """,
         """
 import os RANDOM_NEWLINES
 RANDOM_IMPORTS RANDOM_NEWLINES
 import base64 RANDOM_NEWLINES
+PRE_SCRIPT_HERE RANDOM_NEWLINES
 RANDOM_VAR1_NAME_HERE = os.popen(base64.b64decode('ENCODED_PAYLOAD_HERE'[::-1]).decode()).read() RANDOM_NEWLINES
 print(RANDOM_VAR1_NAME_HERE) RANDOM_NEWLINES
         """,]
@@ -157,6 +171,9 @@ def arg_check(args):
         sys.exit(1)
     if not os.path.isfile(args.input_file):
         message.error('Input file does not exist')
+        sys.exit(1)
+    if args.pre_script != "" and not os.path.isfile(args.pre_script):
+        message.error("Pre script file doesn't exist")
         sys.exit(1)
     message.success("Arguments passed the checks")
 
@@ -203,6 +220,8 @@ import random""".split("\n")
             template = template.replace("RANDOM_NEWLINES", '\n' * random.randint(0,3))
             template = template.replace("ENCODED_PAYLOAD_HERE", obfuscate.payload_encode())
             template = template.replace("RANDOM_IMPORTS", obfuscate.random_imports())
+            if args.pre_script != "":
+                template = template.replace("PRE_SCRIPT_HERE", open(args.pre_script).read().strip())
             message.success("Template configured")
             return template
 
@@ -235,6 +254,7 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--input-file', help="File you want to obfuscate.", required=True)
     parser.add_argument('-f', '--format', help="What format the file is you want to obfuscate. (python, binary, bash)", required=True)
     parser.add_argument('-o', '--output-file', help="File where you want the obfuscated while to be written.", required=True)
+    parser.add_argument('-p', '--pre-script', help="Python program to run before executing the main payload.", default="")
     parser.add_argument('--os', help="Operating system the obfuscated code will be ran in. (windows,linux)", required=True)
     args = parser.parse_args()
     arg_check(args)
