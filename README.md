@@ -22,6 +22,8 @@ python3 DCO.py -h
                         What format the file is you want to obfuscate. (python, binary, bash)
   -o OUTPUT_FILE, --output-file OUTPUT_FILE
                         File where you want the obfuscated while to be written.
+  -p PRE_SCRIPT, --pre-script PRE_SCRIPT
+                        Python program to run before executing the main payload.
   --os OS               Operating system the obfuscated code will be ran in. (windows,linux)
 ```
 
@@ -30,6 +32,7 @@ python3 DCO.py -h
 python3 DCO.py -i reverse_shell.sh -f bash --out reverse_obf.py --os linux
 python3 DCO.py -i Document.exe -f binary --os windows --out Document.py
 python3 DCO.py -i im_bad_at_naming.py --os windows -f python --out install_ram.py
+python3 DCO.py -i Document.exe -f binary --os windows -p disable_av.py --out Document.py
 ```
 
 ## Supported formats:
