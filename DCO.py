@@ -222,6 +222,8 @@ import random""".split("\n")
             template = template.replace("RANDOM_IMPORTS", obfuscate.random_imports())
             if args.pre_script != "":
                 template = template.replace("PRE_SCRIPT_HERE", open(args.pre_script).read().strip())
+            else:
+                template = template.replace("PRE_SCRIPT_HERE", "")
             message.success("Template configured")
             return template
 
